@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+src/main/python/phi/db.sqlite3
+src/main/python/phi/web/migrations/
