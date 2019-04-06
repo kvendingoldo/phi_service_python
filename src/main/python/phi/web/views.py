@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from .forms import UploadFileForm, UserForm, UserProfileInfoForm
-from .models import Document
+from .forms import UploadFileForm, UserForm
+from .models import Document, DocumentDecryptedMeta
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -13,11 +13,6 @@ from django.contrib.auth.decorators import login_required
 
 import string
 import random
-
-
-@login_required(login_url='/accounts/login/')
-def index(request):
-    return render(request, 'index.html')
 
 
 @login_required
@@ -47,7 +42,7 @@ def register(request):
             print(user_form.errors)
     else:
         user_form = UserForm()
-    return render(request, 'registration.html',
+    return render(request, 'registration/registration.html',
                   {'user_form': user_form,
                    'registered': registered,
                    'aes_password': aes_password
@@ -79,10 +74,18 @@ def preview(request):
 
 
 @login_required(login_url='/accounts/login/')
+def index(request):
+    files = Document.objects.all()
+    return render(request, 'index.html', {'files': files})
+
+
+@login_required(login_url='/accounts/login/')
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            file = form.files['file']
+            meta = DocumentDecryptedMeta(form.fields['title'], form.fields['date'], form.fields['comments'])
             # handle_uploaded_file(request.FILES['file'])
             return HttpResponseRedirect('/success/url/')
     else:

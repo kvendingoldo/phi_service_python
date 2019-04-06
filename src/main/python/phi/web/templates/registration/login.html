@@ -1,17 +1,19 @@
-{% extends '../base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block header_block %}
+    <title>Login</title>
+{% endblock %}
 
 {% block body_block %}
     <h2 class="matter-body1"> Login</h2>
     <form method="post">
         {% csrf_token %}
-        <label class="matter-body1 for="username">Username:</label>
+        <label class="matter-body1" for="username">Username:</label>
         <input class="matter-textfield-filled" type="text" name="username" placeholder="Username">
 
-        <label class="matter-body1 for="password">Password:</label>
+        <label class="matter-body1" for="password">Password:</label>
         <input class="matter-textfield-filled" type="password" name="password" placeholder="Password">
 
-        <button class="matter-button-contained type="submit">Login</button>
+        <button class="matter-button-contained" type="submit">Login</button>
     </form>
 {% endblock %}

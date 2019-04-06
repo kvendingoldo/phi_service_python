@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Upload</title>
-    </head>
-    <body>
+{% extends 'base.html' %}
 
+{% block header_block %}
+    <title>Upload document</title>
+{% endblock %}
 
-     <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Upload file</button>
-      </form>
-
-    </body>
-</html>
+{% block body_block %}
+    <div class="container">
+        <div class="jumbotron">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
