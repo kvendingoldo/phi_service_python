@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from .forms import UploadFileForm, UserForm, UserProfileInfoForm
+from .forms import UploadFileForm, UserForm
 from .models import Document
 
 from django.http import HttpResponse
@@ -13,11 +13,6 @@ from django.contrib.auth.decorators import login_required
 
 import string
 import random
-
-
-@login_required(login_url='/accounts/login/')
-def index(request):
-    return render(request, 'index.html')
 
 
 @login_required
@@ -47,7 +42,7 @@ def register(request):
             print(user_form.errors)
     else:
         user_form = UserForm()
-    return render(request, 'registration.html',
+    return render(request, 'registration/registration.html',
                   {'user_form': user_form,
                    'registered': registered,
                    'aes_password': aes_password
@@ -76,6 +71,12 @@ def user_login(request):
 @login_required(login_url='/accounts/login/')
 def preview(request):
     return HttpResponse("Preview page")
+
+
+@login_required(login_url='/accounts/login/')
+def index(request):
+    files = Document.objects.all()
+    return render(request, 'index.html', {'files': files})
 
 
 @login_required(login_url='/accounts/login/')
