@@ -6,4 +6,5 @@ from django.conf.urls import include, url
 urlpatterns = [
     url(r'^web/', include('web.urls')),
     path('admin/', admin.site.urls),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
 ]
