@@ -1,12 +1,13 @@
-<html>
-    <head>
-        <title>PHI Service</title>
-    </head>
-    <body>
-      <a href="/web/upload">Upload</a><br/>
-      <a href="/web/preview">Preview</a><br/>
-      {% block application %}
-        Welcome to site.
-      {% endblock %}
-    </body>
- </html>
+{% extends "base.html" %}
+{% block body_block %}
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Djungle !</h1>
+    {% if user.is_authenticated %}
+        <h2>Hello {{ user.username }}</h2>
+    {% else %}
+        <h2>Register or Login if you'd like to</h2>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
