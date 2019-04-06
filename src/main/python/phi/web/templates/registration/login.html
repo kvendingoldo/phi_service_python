@@ -3,15 +3,15 @@
 {% block title %}Login{% endblock %}
 
 {% block body_block %}
-    <h2>Login</h2>
+    <h2 class="matter-body1"> Login</h2>
     <form method="post">
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" placeholder="Username">
+        <label class="matter-body1 for="username">Username:</label>
+        <input class="matter-textfield-filled" type="text" name="username" placeholder="Username">
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" placeholder="Password">
+        <label class="matter-body1 for="password">Password:</label>
+        <input class="matter-textfield-filled" type="password" name="password" placeholder="Password">
 
-        <button type="submit">Login</button>
+        <button class="matter-button-contained type="submit">Login</button>
     </form>
 {% endblock %}
