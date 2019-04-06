@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Index all files</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <h2>Hello {{ user.username }}</h2>
+
+    {% for file in files %}
+        <p>Ето файл {{ files }}</p>
+    {% endfor %}
+
+
+{% else %}
+    <h2>Register or Login if you'd like to</h2>
+{% endif %}
+</body>
+</html>
+
+
+
+
