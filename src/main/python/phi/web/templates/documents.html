@@ -8,9 +8,10 @@
     <h2>Hello {{ user.username }}</h2>
 
     {% for file in files %}
-        <p>Ето файл {{ files }}</p>
+        <a href="{{ file.get_absolute_url }}">
+            MORE
+        </a>
     {% endfor %}
-
 
 {% else %}
     <h2>Register or Login if you'd like to</h2>

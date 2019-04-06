@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-
 from django.urls import reverse
+from django.views.generic import ListView, DetailView
 
-from .forms import UserForm, UserProfileInfoForm
-
-from .forms import UploadFileForm
+from .forms import UploadFileForm, UserForm, UserProfileInfoForm
 from .models import Document
 
 from django.http import HttpResponse
@@ -15,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 
 import string
 import random
+
 
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -80,12 +79,6 @@ def preview(request):
 
 
 @login_required(login_url='/accounts/login/')
-def index_files(request):
-    files = Document.objects.all()
-    return render(request, 'index_files.html', {'files': files})
-
-
-@login_required(login_url='/accounts/login/')
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -95,3 +88,28 @@ def upload(request):
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
+
+
+#@login_required(login_url='/accounts/login/')
+class DocumentsView(ListView):
+    model = Document
+
+    template_name = 'documents.html'
+
+    queryset = Document.objects.all()
+    context_object_name = 'files'
+
+    def get_queryset(self):
+        """Filter by tag if it is provided in GET parameters"""
+        queryset = super(DocumentsView, self).get_queryset()
+        return queryset
+
+
+#@login_required(login_url='/accounts/login/')
+class DocumentView(DetailView):
+    model = Document
+    template_name = 'document.html'
+    #context_object_name = 'file'
+
+    def get_object(self):
+        return Document.objects.filter(id=self.kwargs['pk'])

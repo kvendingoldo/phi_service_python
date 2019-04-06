@@ -18,6 +18,9 @@ class Document(models.Model):
     meta = models.TextField()
     body = models.TextField()
 
+    def get_absolute_url(self):
+        return "/document/%i" % self.id
+
 
 class View(models.Model):
     owner = models.CharField(max_length=20)
