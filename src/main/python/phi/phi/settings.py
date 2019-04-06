@@ -60,7 +60,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            './phi/templates'
+            './web/templates',
+            './web/templates/registration'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
