@@ -22,6 +22,13 @@ class Document(models.Model):
         return "/document/%i" % self.id
 
 
+class DocumentDecryptedMeta:
+    def __init__(self, title, date, comments):
+        self.title = title
+        self.date = date
+        self.comments = comments
+
+
 class View(models.Model):
     owner = models.CharField(max_length=20)
     meta = models.TextField()

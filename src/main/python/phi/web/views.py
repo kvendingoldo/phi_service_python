@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from .forms import UploadFileForm, UserForm
-from .models import Document
+from .models import Document, DocumentDecryptedMeta
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -84,6 +84,8 @@ def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            file = form.file
+            meta = DocumentDecryptedMeta(form.title, form.date, form.comments)
             # handle_uploaded_file(request.FILES['file'])
             return HttpResponseRedirect('/success/url/')
     else:

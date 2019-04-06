@@ -19,5 +19,7 @@ class UserProfileInfoForm(forms.ModelForm):
 
 
 class UploadFileForm(forms.Form):
-    # title = forms.CharField(max_length=50)
+    title = forms.CharField(max_length=50)
     file = forms.FileField()
+    date = forms.DateField(widget=forms.SelectDateWidget)
+    comments = forms.CharField(max_length=255, widget=forms.Textarea, required=False)
