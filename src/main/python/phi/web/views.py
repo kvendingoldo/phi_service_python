@@ -11,8 +11,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from djongo.models import ObjectIdField
-
 from .utils.cipher import AESCipher
 
 import pickle
@@ -94,7 +92,7 @@ def upload(request):
             if not check_key(key, request):
                 return HttpResponseRedirect('failure/url')
             file = form.files['file']
-            meta = DocumentDecryptedMeta(form.fields['title'], form.fields['date'], form.fields['comments'])
+            meta = DocumentDecryptedMeta(form.fields['title'], None, form.fields['comments'])
             handle_uploaded_file(file, meta, key, request)
             return HttpResponseRedirect('/success/url/')
     else:
@@ -115,7 +113,7 @@ def handle_uploaded_file(file, meta, key, request):
     pickled_meta = codecs.encode(pickle.dumps(meta), "base64").decode()
     meta_enc = cipher.encrypt(pickled_meta)
 
-    document = Document(id=ObjectIdField(), meta=meta_enc, body=file_enc, owner=request.user.id)
+    document = Document(meta=meta_enc, body=file_enc, owner=request.user.id)
     document.save()
 
 
