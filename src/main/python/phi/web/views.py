@@ -11,6 +11,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from djongo.models import ObjectIdField
+
+from .utils.cipher import AESCipher
+
+import pickle
+import codecs
 import string
 import random
 
@@ -84,16 +90,36 @@ def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            key = form.files['key']
+            if not check_key(key, request):
+                return HttpResponseRedirect('failure/url')
             file = form.files['file']
             meta = DocumentDecryptedMeta(form.fields['title'], form.fields['date'], form.fields['comments'])
-            # handle_uploaded_file(request.FILES['file'])
+            handle_uploaded_file(file, meta, key, request)
             return HttpResponseRedirect('/success/url/')
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 
 
-#@login_required(login_url='/accounts/login/')
+def check_key(key, request):
+    return True
+
+
+def handle_uploaded_file(file, meta, key, request):
+    cipher = AESCipher(key.file.read().decode("utf-8"))
+
+    pickled_file = codecs.encode(pickle.dumps(file), "base64").decode()
+    file_enc = cipher.encrypt(pickled_file)
+
+    pickled_meta = codecs.encode(pickle.dumps(meta), "base64").decode()
+    meta_enc = cipher.encrypt(pickled_meta)
+
+    document = Document(id=ObjectIdField(), meta=meta_enc, body=file_enc, owner=request.user.id)
+    document.save()
+
+
+# @login_required(login_url='/accounts/login/')
 class DocumentsView(ListView):
     model = Document
 
