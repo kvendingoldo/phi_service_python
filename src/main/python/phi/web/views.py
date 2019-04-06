@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
-from django.core.files.storage import FileSystemStorage
 
 from .forms import UploadFileForm
 from .models import Document
@@ -24,7 +19,13 @@ def preview(request):
     return HttpResponse("Preview page")
 
 
-#@login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
+def index_files(request):
+    files = Document.objects.all()
+    return render(request, 'index_files.html', {'files': files})
+
+
+@login_required(login_url='/accounts/login/')
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
