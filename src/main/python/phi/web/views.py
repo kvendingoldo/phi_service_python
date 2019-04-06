@@ -84,8 +84,8 @@ def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = form.file
-            meta = DocumentDecryptedMeta(form.title, form.date, form.comments)
+            file = form.files['file']
+            meta = DocumentDecryptedMeta(form.fields['title'], form.fields['date'], form.fields['comments'])
             # handle_uploaded_file(request.FILES['file'])
             return HttpResponseRedirect('/success/url/')
     else:
