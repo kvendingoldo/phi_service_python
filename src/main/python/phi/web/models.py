@@ -3,25 +3,17 @@ from django.db import models
 # Create your models here.
 
 
-class User(object):
-    def __init__(self):
-        self.id = None
-        self.meta = None
+class User(models.Model):
+    meta = models.TextField()
 
 
-class Document(object):
-
-    def __init__(self):
-        self.id = None
-        self.owner = None
-        self.meta = None
-        self.body = None
+class Document(models.Model):
+    owner = models.CharField(max_length=20)
+    meta = models.TextField()
+    body = models.TextField()
 
 
-class View(object):
-
-    def __init__(self):
-        self.id = None
-        self.owner = None
-        self.meta = None
-        self.structure = None
+class View(models.Model):
+    owner = models.CharField(max_length=20)
+    meta = models.TextField()
+    structure = models.TextField()

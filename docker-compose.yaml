@@ -1,5 +1,10 @@
-version: '3'
+version: '2'
 services:
+  mongo:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - 27017:27017
   phi-mysql:
       image: mysql:latest
       container_name: "phi-mysql"
