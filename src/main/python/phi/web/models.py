@@ -3,25 +3,29 @@ from django.db import models
 # Create your models here.
 
 
-class User(object):
-    def __init__(self):
-        self.id = None
-        self.meta = None
+class User(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    meta = models.TextField()
+
+    def publish(self):
+        self.save()
 
 
-class Document(object):
+class Document(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    owner = models.CharField(max_length=20)
+    meta = models.TextField()
+    body = models.TextField()
 
-    def __init__(self):
-        self.id = None
-        self.owner = None
-        self.meta = None
-        self.body = None
+    def publish(self):
+        self.save()
 
 
-class View(object):
+class View(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
+    owner = models.CharField(max_length=20)
+    meta = models.TextField()
+    structure = models.TextField()
 
-    def __init__(self):
-        self.id = None
-        self.owner = None
-        self.meta = None
-        self.structure = None
+    def publish(self):
+        self.save()
