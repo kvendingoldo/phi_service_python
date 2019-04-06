@@ -1,17 +1,30 @@
 {% extends 'base.html' %}
 
+{% load material_form %}
+
 {% block header_block %}
     <title>Upload document</title>
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-        <div class="jumbotron">
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form }}
-                <button type="submit">Upload</button>
-            </form>
+        <div>
+            {% form form=form %}
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                        <button type="submit">Upload</button>
+                </form>
+            {% endform %}
         </div>
     </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+

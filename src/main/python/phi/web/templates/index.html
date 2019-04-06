@@ -1,18 +1,34 @@
 {% extends 'base.html' %}
 
+{% load material_form %}
+
 {% block header_block %}
     <title>Index page</title>
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-        <div class="jumbotron">
-            <h1>Welcome to the Djungle !</h1>
-            {% if user.is_authenticated %}
-                <h2>Hello {{ user.username }}</h2>
-            {% else %}
-                <h2>Register or Login if you'd like to</h2>
-            {% endif %}
+        <div>
+        {% if user.is_authenticated %}
+            <h2>Hello {{ user.username }}</h2>
+
+            {% for file in files %}
+
+
+                <a href="{{ file.get_absolute_url }}">
+                    MORE
+                </a>
+
+            {% endfor %}
+
+        {% else %}
+            <h2>Register or Login if you'd like to</h2>
+        {% endif %}
         </div>
     </div>
 {% endblock %}
+
+
+
+
+

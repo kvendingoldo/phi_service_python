@@ -97,7 +97,7 @@ def upload(request):
 class DocumentsView(ListView):
     model = Document
 
-    template_name = 'documents.html'
+    template_name = 'index.html'
 
     queryset = Document.objects.all()
     context_object_name = 'files'
@@ -115,4 +115,4 @@ class DocumentView(DetailView):
     #context_object_name = 'file'
 
     def get_object(self):
-        return Document.objects.filter(id=self.kwargs['pk'])
+        return Document.objects.filter(id=self.kwargs['pk'])[0]

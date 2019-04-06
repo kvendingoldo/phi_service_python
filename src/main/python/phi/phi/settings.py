@@ -14,6 +14,10 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MATERIAL_JS = "https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"
+
+
+MATERIAL_CSS = "https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,6 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+    'material',
+
+
     'web'
 ]
 

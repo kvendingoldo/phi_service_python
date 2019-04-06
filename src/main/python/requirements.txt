@@ -4,3 +4,4 @@ pycryptodome
 pycrypto==2.6
 djongo
 django-materialize-css
+django-material-widgets

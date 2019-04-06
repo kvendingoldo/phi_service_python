@@ -1,13 +1,22 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>DETAILS</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h2>Hello {{ object }}</h2>
+{% load material_form %}
+
+{% block header_block %}
+    <title>Document</title>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div>
+            {{ object.body }}
+            {{ object.owner }}
+            {{ object.meta }}
+
+        </div>
+    </div>
+{% endblock %}
 
 
-</body>
-</html>
+
 

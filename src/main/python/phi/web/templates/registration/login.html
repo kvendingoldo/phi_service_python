@@ -1,19 +1,29 @@
-{% extends 'base.html' %}
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
 
-{% block header_block %}
-    <title>Login</title>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
 
-{% block body_block %}
-    <h2 class="matter-body1"> Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        <label class="matter-body1" for="username">Username:</label>
-        <input class="matter-textfield-filled" type="text" name="username" placeholder="Username">
+        <title>LOGIN</title>
+    </head>
 
-        <label class="matter-body1" for="password">Password:</label>
-        <input class="matter-textfield-filled" type="password" name="password" placeholder="Password">
 
-        <button class="matter-button-contained" type="submit">Login</button>
-    </form>
-{% endblock %}
+    <body>
+        <h2> Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Username">
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password">
+
+            <button type="submit">Login</button>
+        </form>
+
+
+    </body>
+</html>
+

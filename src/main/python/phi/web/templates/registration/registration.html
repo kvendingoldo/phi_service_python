@@ -1,22 +1,37 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% block body_block %}
-    <div class="container">
-        <div class="jumbotron">
-            {% if registered %}
-                <h1>Thank you for registering!</h1>
-                Your AES password is: {{ aes_password }}
-            {% else %}
-                <h1>Register Here</h1>
-                <h3>Just fill out the form.</h3>
-                <form enctype="multipart/form-data" method="POST">
-                    {% csrf_token %}
-                    {{ user_form.as_p }}
-                    {{ profile_form.as_p }}
-                    <input type="submit" name="" value="Register">
-                </form>
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
 
-            {% endif %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>REGISTER</title>
+
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div>
+                {% if registered %}
+                    <h1>Thank you for registering!</h1>
+                    Your AES password is: {{ aes_password }}
+                {% else %}
+                    <h1>Register Here</h1>
+                    <h3>Just fill out the form.</h3>
+                    <form enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        {{ profile_form.as_p }}
+                        <input type="submit" name="" value="Register">
+                    </form>
+
+                {% endif %}
+            </div>
         </div>
-    </div>
-{% endblock %}
+
+
+    </body>
+</html>
+
