@@ -2,3 +2,4 @@ django
 mysqlclient
 pycryptodome
 pycrypto==2.6
+djongo

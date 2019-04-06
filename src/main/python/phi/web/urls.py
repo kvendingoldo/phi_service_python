@@ -9,5 +9,5 @@ urlpatterns = [
     url('upload', views.upload, name='upload'),
     url('preview', views.preview, name='preview'),
     path('admin/', admin.site.urls),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url('^accounts/', include('django.contrib.auth.urls')),
 ]
