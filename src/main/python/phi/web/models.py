@@ -14,6 +14,7 @@ class User(models.Model):
 
 
 class Document(models.Model):
+    _id = models.ObjectIdField()
     owner = models.CharField(max_length=20)
     meta = models.TextField()
     body = models.TextField()

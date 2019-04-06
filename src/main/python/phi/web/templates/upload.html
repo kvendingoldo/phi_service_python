@@ -9,12 +9,14 @@
 {% block body_block %}
     <div class="container">
         <div>
-            {% form form=form %}
-                <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                        <button type="submit">Upload</button>
-                </form>
-            {% endform %}
+
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% form form=form %}
+                {% endform %}
+                <button type="submit">Upload</button>
+            </form>
+
         </div>
     </div>
 {% endblock %}
