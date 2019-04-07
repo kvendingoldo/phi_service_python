@@ -105,7 +105,9 @@ def upload(request):
             print('done')
 
             file = form.files['file']
-            title = form.fields['title']
+
+            title = form.cleaned_data['title']
+
             meta = DocumentDecryptedMeta(title, None, form.fields['comments'])
             handle_uploaded_file(file, title, meta, key, request)
             return HttpResponseRedirect('/index')
@@ -140,6 +142,7 @@ class DocumentsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Document.objects.filter(owner=self.request.user)
+
 
 
 class DocumentView(LoginRequiredMixin, DetailView):
