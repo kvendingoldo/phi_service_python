@@ -20,7 +20,7 @@ class Document(models.Model):
     body = models.TextField()
 
     def get_absolute_url(self):
-        return "/document/%i" % self.id
+        return "/document/%s" % self._id
 
 
 class DocumentDecryptedMeta:

@@ -4,10 +4,35 @@
 
 {% block header_block %}
     <title>Index page</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://raw.githubusercontent.com/ascott1/bigSlide.js/master/dist/bigSlide.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.menu-link').bigSlide();
+        });
+    </script>
+
+
 {% endblock %}
 
 {% block body_block %}
+
     <div class="container">
+        <!--<a href="#menu" class="menu-link">&#9776;</a>-->
+
+
+        <nav id="menu" class="panel" role="navigation">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">The Ballad of El Goodo</a></li>
+                <li><a href="#">Thirteen</a></li>
+                <li><a href="#">September Gurls</a></li>
+                <li><a href="#">What's Going Ahn</a></li>
+            </ul>
+        </nav>
+
         <div>
         {% if user.is_authenticated %}
             <h2>Hello {{ user.username }}</h2>
@@ -26,6 +51,11 @@
         {% endif %}
         </div>
     </div>
+
+
+
+
+
 {% endblock %}
 
 

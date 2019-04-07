@@ -139,4 +139,4 @@ class DocumentView(DetailView):
     #context_object_name = 'file'
 
     def get_object(self):
-        return Document.objects.filter(id=self.kwargs['pk'])[0]
+        return Document.objects.filter(_id=self.kwargs['pk'])[0]
