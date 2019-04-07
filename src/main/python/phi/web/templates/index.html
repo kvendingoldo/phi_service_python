@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load material_form %}
+{% load static %}
 
 {% block header_block %}
     <title>Index page</title>
@@ -8,42 +9,45 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://raw.githubusercontent.com/ascott1/bigSlide.js/master/dist/bigSlide.js"></script>
 
+
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.menu-link').bigSlide();
         });
     </script>
-
 
 {% endblock %}
 
 {% block body_block %}
 
     <div class="container">
-    {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
 
-        <nav id="menu" class="panel" role="navigation">
-            <ul>
-                <li><a href="/index.html">Home</a></li>
-                <li><a href="/upload.html">Upload</a></li>
-            </ul>
-        </nav>
+            <nav id="menu" class="panel" role="navigation">
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/upload.html">Upload</a></li>
+                </ul>
+            </nav>
 
-        <div>
+            <div>
             <h2>Hello {{ user.username }}</h2>
 
 
-              <div class="leftcolumn">
-                  {% for file in files %}
+            <div class="leftcolumn">
+                {% for file in files %}
+                    <div class="card">
 
-                      <div class="card">
-                          <h2>{{ file.title }}</h2>
-                          <div class="fakeimg" style="height:50px;"></div>
-                          <a href="{{ file.get_absolute_url }}">MORE</a>
-                      </div>
+                        <a href="{{ file.get_absolute_url }}">
+                            <div >
+                                <h4>{{ file.title }}</h4>
+                            </div>
+                        </a>
 
-                    {% endfor %}
-              </div>
+                    </div>
+
+                {% endfor %}
+            </div>
 
 
         {% else %}
@@ -53,12 +57,4 @@
     </div>
 
 
-
-
-
 {% endblock %}
-
-
-
-
-

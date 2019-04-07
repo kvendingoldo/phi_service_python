@@ -9,32 +9,20 @@
 {% block body_block %}
     <div class="container">
         <nav id="menu" class="panel" role="navigation">
-        <ul>
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/upload.html">Upload</a></li>
-        </ul>
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/upload.html">Upload</a></li>
+            </ul>
         </nav>
 
 
-        <div>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% form form=form %}
+            {% endform %}
+            <button class="material_ripple demo_container__item btn" type="submit">Upload</button>
+        </form>
 
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% form form=form %}
-                {% endform %}
-                <button type="submit">Upload</button>
-            </form>
 
-        </div>
     </div>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
