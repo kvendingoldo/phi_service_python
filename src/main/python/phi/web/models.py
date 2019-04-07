@@ -37,3 +37,9 @@ class View(models.Model):
     owner = models.CharField(max_length=20)
     meta = models.TextField()
     structure = models.TextField()
+
+
+class Error:
+    def __init__(self, title, details):
+        self.title = title
+        self.details = details

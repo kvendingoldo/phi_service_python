@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import UploadFileForm, UserForm
-from .models import Document, DocumentDecryptedMeta, User
+from .models import Document, DocumentDecryptedMeta, User, Error
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -73,11 +73,11 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                return HttpResponse("Your account was inactive.")
+                return render(request, 'error.html', {'error': Error("Your account was inactive", "")})
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login details given")
+            return render(request, 'error.html', {'error': Error("Invalid login details given", "")})
     else:
         return render(request, 'registration/login.html', {})
 
@@ -101,7 +101,7 @@ def upload(request):
         if form.is_valid():
             key = form.files['key'].file.getvalue().decode("utf-8")
             if not check_key(key, request):
-                return HttpResponseRedirect('failure/url')
+                render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
             print('done')
 
             file = form.files['file']
@@ -142,7 +142,6 @@ class DocumentsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Document.objects.filter(owner=self.request.user)
-
 
 
 class DocumentView(LoginRequiredMixin, DetailView):

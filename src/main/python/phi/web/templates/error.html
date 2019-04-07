@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load material_form %}
+
+{% block header_block %}
+    <title>{{ error.title }}</title>
+{%  endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <h1>{{ error.title }}</h1>
+        <h2>{{ error.details }}</h2>
+    </div>
+{% endblock %}
