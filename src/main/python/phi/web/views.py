@@ -45,7 +45,8 @@ def register(request):
 
             print(hashlib.md5(aes_password.encode('utf-8')).hexdigest().strip())
 
-            userMongo = User(name=user.get_username(), meta="todo", hash=hashlib.md5(aes_password.encode('utf-8')).hexdigest().strip())
+            userMongo = User(name=user.get_username(), meta="todo",
+                             hash=hashlib.md5(aes_password.encode('utf-8')).hexdigest().strip())
             userMongo.save()
 
             registered = True
@@ -124,23 +125,19 @@ def handle_uploaded_file(file, meta, key, request):
     pickled_meta = codecs.encode(pickle.dumps(meta), "base64").decode()
     meta_enc = cipher.encrypt(pickled_meta)
 
-    document = Document(meta=meta_enc, body=file_enc, owner=request.user.id)
+    document = Document(meta=meta_enc, body=file_enc, owner=request.user)
     document.save()
 
 
 # @login_required(login_url='/accounts/login/')
+# @login_required
 class DocumentsView(ListView):
     model = Document
-
     template_name = 'index.html'
-
-    queryset = Document.objects.all()
     context_object_name = 'files'
 
     def get_queryset(self):
-        """Filter by tag if it is provided in GET parameters"""
-        queryset = super(DocumentsView, self).get_queryset()
-        return queryset
+        return Document.objects.filter(owner=self.request.user)
 
 
 # @login_required(login_url='/accounts/login/')
@@ -149,6 +146,5 @@ class DocumentView(DetailView):
     template_name = 'document.html'
 
     # context_object_name = 'file'
-
     def get_object(self):
         return Document.objects.filter(_id=self.kwargs['pk'])[0]
