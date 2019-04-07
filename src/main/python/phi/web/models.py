@@ -10,7 +10,9 @@ class UserProfileInfo(models.Model):
 
 
 class User(models.Model):
+    name = models.TextField()
     meta = models.TextField()
+    hash = models.TextField()
 
 
 class Document(models.Model):

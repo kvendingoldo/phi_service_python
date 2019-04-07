@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from .forms import UploadFileForm, UserForm
-from .models import Document, DocumentDecryptedMeta
+from .models import Document, DocumentDecryptedMeta, User
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -17,6 +17,7 @@ import pickle
 import codecs
 import string
 import random
+import hashlib
 
 
 @login_required
@@ -37,15 +38,22 @@ def register(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         if user_form.is_valid():
+            print(user_form.save())
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+
+            print(hashlib.md5(aes_password.encode('utf-8')).hexdigest().strip())
+
+            userMongo = User(name=user.get_username(), meta="todo", hash=hashlib.md5(aes_password.encode('utf-8')).hexdigest().strip())
+            userMongo.save()
 
             registered = True
         else:
             print(user_form.errors)
     else:
         user_form = UserForm()
+
     return render(request, 'registration/registration.html',
                   {'user_form': user_form,
                    'registered': registered,
@@ -87,10 +95,13 @@ def index(request):
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
+
         if form.is_valid():
-            key = form.files['key']
+            key = form.files['key'].file.getvalue().decode("utf-8")
             if not check_key(key, request):
                 return HttpResponseRedirect('failure/url')
+            print('done')
+
             file = form.files['file']
             meta = DocumentDecryptedMeta(form.fields['title'], None, form.fields['comments'])
             handle_uploaded_file(file, meta, key, request)
@@ -101,11 +112,11 @@ def upload(request):
 
 
 def check_key(key, request):
-    return True
+    return hashlib.md5(key.encode().strip()).hexdigest() == User.objects.filter(name=request.user)[0].hash.strip()
 
 
 def handle_uploaded_file(file, meta, key, request):
-    cipher = AESCipher(key.file.read().decode("utf-8"))
+    cipher = AESCipher(key)
 
     pickled_file = codecs.encode(pickle.dumps(file), "base64").decode()
     file_enc = cipher.encrypt(pickled_file)
@@ -132,11 +143,12 @@ class DocumentsView(ListView):
         return queryset
 
 
-#@login_required(login_url='/accounts/login/')
+# @login_required(login_url='/accounts/login/')
 class DocumentView(DetailView):
     model = Document
     template_name = 'document.html'
-    #context_object_name = 'file'
+
+    # context_object_name = 'file'
 
     def get_object(self):
         return Document.objects.filter(_id=self.kwargs['pk'])[0]
