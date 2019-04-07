@@ -34,14 +34,17 @@
         <p>Hi, {{ user.username }}!<a href="/logout">(log out)</a></p>
 
 
-              <div class="leftcolumn">
-                  {% for file in files %}
+            <div class="leftcolumn">
+                {% for file in files %}
+                    <div class="card">
 
-                      <div class="card">
-                          <h2>{{ file.title }}</h2>
-                          <div class="fakeimg" style="height:50px;"></div>
-                          <a href="{{ file.get_absolute_url }}">MORE</a>
-                      </div>
+                        <a href="{{ file.get_absolute_url }}">
+                            <div >
+                                <h4>{{ file.title }}</h4>
+                            </div>
+                        </a>
+
+                    </div>
 
                 {% endfor %}
             </div>
