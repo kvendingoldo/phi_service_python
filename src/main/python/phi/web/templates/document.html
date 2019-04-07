@@ -4,6 +4,43 @@
 
 {% block header_block %}
     <title>Document</title>
+
+    <style>
+        body {
+            background: #e2e1e0;
+            text-align: center;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 2px;
+            display: inline-block;
+            height: 200px;
+            margin: 1rem;
+            position: relative;
+            width: 70%;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .card-1 {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+        .card-1:hover {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .card-2 {
+            margin: 10rem;
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+        }
+
+
+
+    </style>
+
+
 {% endblock %}
 
 {% block body_block %}
@@ -15,13 +52,38 @@
         </ul>
     </nav>
 
-    <div class="container">
-        <div class="card">
 
-            {{ form.title }}
-            {{ form.comments }}
+    <div>
+
+        <div class="card-1">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">title</th>
+                    <td>{{ form.title }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">comment</th>
+                    <td> {{ form.comments }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="card-2">
+
+
             <img src="data:;base64,{{ form.image }}"/>
 
         </div>
+        </center>
     </div>
 {% endblock %}
