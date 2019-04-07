@@ -142,17 +142,13 @@ class DocumentsView(LoginRequiredMixin, ListView):
 def generate_decoded_form(key, doc):
     cipher = AESCipher(key)
 
-    #pickled_body = codecs.decode(pickle.dumps(doc.body), "base64").decode()
-    print(doc.meta)
-    print(cipher.decrypt(doc.meta))
-
-
-    pickled_meta = cipher.decrypt(doc.meta)
+    body = pickle.loads(codecs.decode(cipher.decrypt(bytes(doc.body, encoding="utf-8")[2:-1].decode()).encode(), "base64"))
+    meta = pickle.loads(codecs.decode(cipher.decrypt(bytes(doc.body, encoding="utf-8")[2:-1].decode()).encode(), "base64"))
 
     return {"form": {
         'title': doc.title,
-        'meta': codecs.decode(pickle.dumps(pickled_meta), "base64").decode()
-
+        'meta': meta,
+        'body': body
     }}
 
 
