@@ -96,7 +96,7 @@ def upload(request):
         if form.is_valid():
             key = form.files['key'].file.getvalue().decode("utf-8")
             if not check_key(key, request):
-                render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
+                return render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
             print('done')
 
             file = form.files['file']
@@ -159,7 +159,7 @@ def document_view(request, pk):
         if form.is_valid():
             key = form.files['key'].file.getvalue().decode("utf-8")
             if not check_key(key, request):
-                render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
+                return render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
 
             return render(request, 'document.html',
                           generate_decoded_form(key, Document.objects.filter(_id=pk)[0]))
