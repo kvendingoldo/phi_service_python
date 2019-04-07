@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import UploadFileForm, UserForm
+from .forms import UploadFileForm, UserForm, UploadKeyForm
 from .models import Document, DocumentDecryptedMeta, User, Error
 
 from django.http import HttpResponse
@@ -83,11 +83,6 @@ def user_login(request):
 
 
 @login_required(login_url='/login/')
-def preview(request):
-    return HttpResponse("Preview page")
-
-
-@login_required(login_url='/login/')
 def index(request):
     files = Document.objects.all()
     return render(request, 'index.html', {'files': files})
@@ -144,11 +139,34 @@ class DocumentsView(LoginRequiredMixin, ListView):
         return Document.objects.filter(owner=self.request.user)
 
 
-class DocumentView(LoginRequiredMixin, DetailView):
-    model = Document
+def generate_decoded_form(key, doc):
+    cipher = AESCipher(key)
 
-    login_url = '/login/'
-    template_name = 'document.html'
+    #pickled_body = codecs.decode(pickle.dumps(doc.body), "base64").decode()
+    print(doc.meta)
+    print(cipher.decrypt(doc.meta))
 
-    def get_object(self):
-        return Document.objects.filter(_id=self.kwargs['pk'])[0]
+
+    pickled_meta = cipher.decrypt(doc.meta)
+
+    return {"form": {
+        'title': doc.title,
+        'meta': codecs.decode(pickle.dumps(pickled_meta), "base64").decode()
+
+    }}
+
+
+@login_required(login_url='/login/')
+def document_view(request, pk):
+    if request.method == 'POST':
+        form = UploadKeyForm(request.POST, request.FILES)
+        if form.is_valid():
+            key = form.files['key'].file.getvalue().decode("utf-8")
+            if not check_key(key, request):
+                render(request, 'error.html', {'error': Error("Wrong key", "The key you provided is wrong")})
+
+            return render(request, 'document.html',
+                          generate_decoded_form(key, Document.objects.filter(_id=pk)[0]))
+    else:
+        form = UploadKeyForm()
+    return render(request, 'security_page.html', {'form': form})

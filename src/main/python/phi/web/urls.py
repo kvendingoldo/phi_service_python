@@ -5,10 +5,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    re_path(r'^document/(?P<pk>.+)$', views.DocumentView.as_view(), name='document-detail'),
+    re_path(r'^document/(?P<pk>.+)$', views.document_view, name='document-detail'),
     url('index', views.DocumentsView.as_view(), name='index'),
     url('upload', views.upload, name='upload'),
-    url('preview', views.preview, name='preview'),
     path('admin/', admin.site.urls),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='user_login'),

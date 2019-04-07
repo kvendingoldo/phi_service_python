@@ -24,3 +24,7 @@ class UploadFileForm(forms.Form):
     key = forms.FileField()
     # date = forms.DateField(widget=forms.SelectDateWidget)
     comments = forms.CharField(max_length=255, widget=forms.Textarea, required=False)
+
+
+class UploadKeyForm(forms.Form):
+    key = forms.FileField()

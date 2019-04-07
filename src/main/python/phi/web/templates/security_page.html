@@ -8,21 +8,15 @@
 
 {% block body_block %}
     <div class="container">
-        <nav id="menu" class="panel" role="navigation">
-        <ul>
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/upload.html">Upload</a></li>
-        </ul>
-        </nav>
-
-
         <div>
+            <h2>Are you sure that you want to see this file?</h2>
 
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+
                 {% form form=form %}
                 {% endform %}
-                <button type="submit">Upload</button>
+                <button type="submit">Yes</button>
             </form>
 
         </div>

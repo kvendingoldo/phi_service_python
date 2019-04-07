@@ -21,16 +21,11 @@
 
     <div class="container">
     {% if user.is_authenticated %}
-        <!--<a href="#menu" class="menu-link">&#9776;</a>-->
-
 
         <nav id="menu" class="panel" role="navigation">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">The Ballad of El Goodo</a></li>
-                <li><a href="#">Thirteen</a></li>
-                <li><a href="#">September Gurls</a></li>
-                <li><a href="#">What's Going Ahn</a></li>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/upload.html">Upload</a></li>
             </ul>
         </nav>
 
@@ -42,7 +37,7 @@
                   {% for file in files %}
 
                       <div class="card">
-                          <!--<h2>{{ file.title }}</h2>-->
+                          <h2>{{ file.title }}</h2>
                           <div class="fakeimg" style="height:50px;"></div>
                           <a href="{{ file.get_absolute_url }}">MORE</a>
                       </div>
