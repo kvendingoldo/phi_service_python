@@ -3,12 +3,15 @@
 {% load material_form %}
 
 {% block header_block %}
-    <title>Upload document</title>
+    <title>Upload new document</title>
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
         <div>
+
+            <h1>Upload new document</h1>
+
 
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -16,6 +19,8 @@
                 {% endform %}
                 <button type="submit">Upload</button>
             </form>
+
+            <a href="index">Return</a>
 
         </div>
     </div>

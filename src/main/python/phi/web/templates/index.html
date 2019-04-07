@@ -26,7 +26,7 @@
 
         <nav id="menu" class="panel" role="navigation">
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="/upload">Upload</a></li>
                 <li><a href="#">The Ballad of El Goodo</a></li>
                 <li><a href="#">Thirteen</a></li>
                 <li><a href="#">September Gurls</a></li>
@@ -35,7 +35,7 @@
         </nav>
 
         <div>
-            <h2>Hello {{ user.username }}</h2>
+        <p>Hi, {{ user.username }}!<a href="/logout">(log out)</a></p>
 
 
               <div class="leftcolumn">
@@ -52,7 +52,7 @@
 
 
         {% else %}
-            <h2>Register or Login if you'd like to</h2>
+            <h2>You need to <a href="/user_login">sign in</a> to access this page</h2>
         {% endif %}
         </div>
     </div>
