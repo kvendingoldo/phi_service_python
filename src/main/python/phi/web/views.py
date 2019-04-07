@@ -157,7 +157,6 @@ def generate_decoded_form(key, doc):
         'image': image_base64
     }}
 
-
 @login_required(login_url='/login/')
 def document_view(request, pk):
     if request.method == 'POST':

@@ -30,8 +30,8 @@
                 </ul>
             </nav>
 
-            <div>
-            <h2>Hello {{ user.username }}</h2>
+        <div>
+        <p>Hi, {{ user.username }}!<a href="/logout">(log out)</a></p>
 
 
             <div class="leftcolumn">
@@ -51,7 +51,7 @@
 
 
         {% else %}
-            <h2>Register or Login if you'd like to</h2>
+            <h2>You need to <a href="/user_login">sign in</a> to access this page</h2>
         {% endif %}
         </div>
     </div>
