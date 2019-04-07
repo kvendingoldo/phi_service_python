@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import UploadFileForm, UserForm
 from .models import Document, DocumentDecryptedMeta, User
@@ -81,18 +82,18 @@ def user_login(request):
         return render(request, 'registration/login.html', {})
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/login/')
 def preview(request):
     return HttpResponse("Preview page")
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/login/')
 def index(request):
     files = Document.objects.all()
     return render(request, 'index.html', {'files': files})
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/login/')
 def upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -104,9 +105,10 @@ def upload(request):
             print('done')
 
             file = form.files['file']
-            meta = DocumentDecryptedMeta(form.fields['title'], None, form.fields['comments'])
-            handle_uploaded_file(file, meta, key, request)
-            return HttpResponseRedirect('/success/url/')
+            title = form.fields['title']
+            meta = DocumentDecryptedMeta(title, None, form.fields['comments'])
+            handle_uploaded_file(file, title, meta, key, request)
+            return HttpResponseRedirect('/index')
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
@@ -116,7 +118,7 @@ def check_key(key, request):
     return hashlib.md5(key.encode().strip()).hexdigest() == User.objects.filter(name=request.user)[0].hash.strip()
 
 
-def handle_uploaded_file(file, meta, key, request):
+def handle_uploaded_file(file, title, meta, key, request):
     cipher = AESCipher(key)
 
     pickled_file = codecs.encode(pickle.dumps(file), "base64").decode()
@@ -125,14 +127,14 @@ def handle_uploaded_file(file, meta, key, request):
     pickled_meta = codecs.encode(pickle.dumps(meta), "base64").decode()
     meta_enc = cipher.encrypt(pickled_meta)
 
-    document = Document(meta=meta_enc, body=file_enc, owner=request.user)
+    document = Document(meta=meta_enc, title=title, body=file_enc, owner=request.user)
     document.save()
 
 
-# @login_required(login_url='/accounts/login/')
-# @login_required
-class DocumentsView(ListView):
+class DocumentsView(LoginRequiredMixin, ListView):
     model = Document
+
+    login_url = '/login/'
     template_name = 'index.html'
     context_object_name = 'files'
 
@@ -140,11 +142,11 @@ class DocumentsView(ListView):
         return Document.objects.filter(owner=self.request.user)
 
 
-# @login_required(login_url='/accounts/login/')
-class DocumentView(DetailView):
+class DocumentView(LoginRequiredMixin, DetailView):
     model = Document
+
+    login_url = '/login/'
     template_name = 'document.html'
 
-    # context_object_name = 'file'
     def get_object(self):
         return Document.objects.filter(_id=self.kwargs['pk'])[0]

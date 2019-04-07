@@ -20,6 +20,7 @@
 {% block body_block %}
 
     <div class="container">
+    {% if user.is_authenticated %}
         <!--<a href="#menu" class="menu-link">&#9776;</a>-->
 
 
@@ -34,17 +35,21 @@
         </nav>
 
         <div>
-        {% if user.is_authenticated %}
             <h2>Hello {{ user.username }}</h2>
 
-            {% for file in files %}
 
+              <div class="leftcolumn">
+                  {% for file in files %}
 
-                <a href="{{ file.get_absolute_url }}">
-                    MORE
-                </a>
+                      <div class="card">
+                          <!--<h2>{{ file.title }}</h2>-->
+                          <div class="fakeimg" style="height:50px;">Image</div>
+                          <a href="{{ file.get_absolute_url }}">MORE</a>
+                      </div>
 
-            {% endfor %}
+                    {% endfor %}
+              </div>
+
 
         {% else %}
             <h2>Register or Login if you'd like to</h2>

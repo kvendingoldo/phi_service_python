@@ -1,29 +1,87 @@
-{% include 'material/includes/material_css.html' %}
-{% include 'material/includes/material_js.html' %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
+{% load static %}
+{% load material_form %}
 
-        <title>LOGIN</title>
-    </head>
+{% block header_block %}
+    <title>Login Page</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                <div class="container">
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <span class="login100-form-title p-b-33">
+						    Account Login
+					    </span>
+
+                        <div class="wrap-input100">
+                            <input type="text" name="username" placeholder="Username">
+                        </div>
 
 
-    <body>
-        <h2> Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" name="username" placeholder="Username">
+                        <div class="wrap-input100">
+                            <input type="password" name="password" placeholder="Password">
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" placeholder="Password">
+                        </div>
 
-            <button type="submit">Login</button>
-        </form>
+                        <div class="container-login100-form-btn m-t-20">
+                            <button type="submit" class="login100-form-btn">
+                                Sign in
+                            </button>
+                        </div>
 
 
-    </body>
-</html>
+                        <div class="text-center">
+                            <span class="txt1">
+                                Create an account?
+                            </span>
+
+                            <a href="#" class="txt2 hov1">
+                                Sign up
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+    <script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+{% endblock %}
+
+
+
 
