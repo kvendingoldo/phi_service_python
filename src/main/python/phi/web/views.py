@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .forms import UploadFileForm, UserForm, UploadKeyForm
 from .models import Document, DocumentDecryptedMeta, User, Error
@@ -13,6 +14,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from .utils.cipher import AESCipher
+
+from base64 import b64encode
 
 import pickle
 import codecs
@@ -102,8 +105,9 @@ def upload(request):
             file = form.files['file']
 
             title = form.cleaned_data['title']
+            comments = form.cleaned_data['comments']
 
-            meta = DocumentDecryptedMeta(title, None, form.fields['comments'])
+            meta = DocumentDecryptedMeta(title, None, comments)
             handle_uploaded_file(file, title, meta, key, request)
             return HttpResponseRedirect('/index')
     else:
@@ -143,12 +147,14 @@ def generate_decoded_form(key, doc):
     cipher = AESCipher(key)
 
     body = pickle.loads(codecs.decode(cipher.decrypt(bytes(doc.body, encoding="utf-8")[2:-1].decode()).encode(), "base64"))
-    meta = pickle.loads(codecs.decode(cipher.decrypt(bytes(doc.body, encoding="utf-8")[2:-1].decode()).encode(), "base64"))
+    meta = pickle.loads(codecs.decode(cipher.decrypt(bytes(doc.meta, encoding="utf-8")[2:-1].decode()).encode(), "base64"))
+
+    image_base64 = b64encode(body.file.read()).decode()
 
     return {"form": {
         'title': doc.title,
-        'meta': meta,
-        'body': body
+        'comments': meta.comments,
+        'image': image_base64
     }}
 
 
